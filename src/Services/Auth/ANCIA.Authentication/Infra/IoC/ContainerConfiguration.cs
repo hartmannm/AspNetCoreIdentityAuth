@@ -7,6 +7,7 @@ namespace ANCIA.Authentication.Infra.IoC
         public static IServiceCollection ConfigureAppDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             services.ConfigureDatabaseDependencies(configuration);
+            services.ConfigureIdentity(configuration);
             return services;
         }
     }

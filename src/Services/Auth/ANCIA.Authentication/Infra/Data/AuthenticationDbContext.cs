@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ANCIA.Authentication.Infra.Data
 {
-    public class AuthenticationDbContext : DbContext
+    public class AuthenticationDbContext : IdentityDbContext
     {
         public AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : base(options) { }
 
@@ -17,6 +18,7 @@ namespace ANCIA.Authentication.Infra.Data
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthenticationDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
