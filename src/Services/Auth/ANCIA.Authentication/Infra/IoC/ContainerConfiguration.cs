@@ -1,4 +1,5 @@
 ﻿using ANCIA.Authentication.Infra.IoC.Data;
+using ANCIA.Authentication.Infra.IoC.Identity;
 
 namespace ANCIA.Authentication.Infra.IoC
 {
@@ -8,6 +9,7 @@ namespace ANCIA.Authentication.Infra.IoC
         {
             services.ConfigureDatabaseDependencies(configuration);
             services.ConfigureIdentity(configuration);
+            services.ConfigureServices();
             return services;
         }
     }
