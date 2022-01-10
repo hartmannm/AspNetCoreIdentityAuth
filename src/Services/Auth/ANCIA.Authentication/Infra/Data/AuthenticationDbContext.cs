@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using ANCIA.Authentication.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ANCIA.Authentication.Infra.Data
 {
-    public class AuthenticationDbContext : IdentityDbContext
+    public class AuthenticationDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         public AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : base(options) { }
 
