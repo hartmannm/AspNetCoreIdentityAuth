@@ -21,6 +21,8 @@
 
         public void AddNotifications(IEnumerable<string> messages)
         {
+            if (!messages.Any())
+                throw new ArgumentException();
             messages.Select(msg => new Notification(msg))
                 .ToList()
                 .ForEach(notification => _notifications.Add(notification));
@@ -28,11 +30,13 @@
 
         public void AddNotifications(IEnumerable<Notification> notifications)
         {
+            if (!notifications.Any())
+                throw new ArgumentException();
             notifications.ToList()
                 .ForEach(notification => _notifications.Add(notification));
         }
 
-        public IEnumerable<Notification> GetNotifications() => _notifications.ToList().AsReadOnly();
+        public IReadOnlyCollection<Notification> GetNotifications() => _notifications.ToList().AsReadOnly();
 
         public IEnumerable<string> GetNotificationsMessages()
         {

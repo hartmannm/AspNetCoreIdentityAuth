@@ -12,7 +12,7 @@
 
         public void AddNotifications(IEnumerable<Notification> notifications);
 
-        public IEnumerable<Notification> GetNotifications();
+        public IReadOnlyCollection<Notification> GetNotifications();
 
         public IEnumerable<string> GetNotificationsMessages();
     }
