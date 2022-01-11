@@ -10,5 +10,12 @@ namespace ANCIA.Authentication.Domain.Models
         {
             Active = true;
         }
+
+        public AppUser(string email) : this()
+        {
+            Email = email;
+            UserName = email;
+            EmailConfirmed = true;
+        }
     }
 }

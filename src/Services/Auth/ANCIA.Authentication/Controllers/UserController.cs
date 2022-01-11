@@ -1,7 +1,7 @@
 ﻿using ANCIA.ApiCore.Controllers;
 using ANCIA.Authentication.Application.Commands;
+using ANCIA.Core.Core;
 using ANCIA.Core.Messages.Mediator;
-using ANCIA.Core.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ANCIA.Authentication.Controllers
@@ -10,22 +10,20 @@ namespace ANCIA.Authentication.Controllers
     public class UserController : MainController
     {
         private IMediatorHandler _mediatorHandler;
-        private INotifier _notifier;
 
-        public UserController(IMediatorHandler mediatorHandler, INotifier notifier)
+        public UserController(IMediatorHandler mediatorHandler)
         {
             _mediatorHandler = mediatorHandler;
-            _notifier = notifier;
         }
 
         [HttpPost("create")]
         public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand createUserCommand)
         {
-            await _mediatorHandler.SendCommand(createUserCommand);
-            if (_notifier.HasNotifications())
+            ProcessResult<string> processResult = await _mediatorHandler.SendCommand(createUserCommand);
+            if (processResult.HasError())
             {
                 var result = CreateErrorReturn(
-                    getErrorList(_notifier.GetNotifications()));
+                    getErrorList(processResult.Errors));
                 return BadRequest(result);
             }
             return Ok();

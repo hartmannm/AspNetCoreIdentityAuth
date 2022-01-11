@@ -1,9 +1,10 @@
-﻿using ANCIA.Core.Messages.Commands;
+﻿using ANCIA.Core.Core;
+using ANCIA.Core.Messages.Commands;
 using FluentValidation;
 
 namespace ANCIA.Authentication.Application.Commands
 {
-    public class CreateUserCommand : Command
+    public class CreateUserCommand : Command<ProcessResult<string>>
     {
         public string? Email { get; set; }
         public string? Password { get; set; }

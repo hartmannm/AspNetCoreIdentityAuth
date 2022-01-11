@@ -1,51 +1,39 @@
 ﻿using ANCIA.Authentication.Domain.Models;
+using ANCIA.Core.Core;
 using ANCIA.Core.Extensions;
-using ANCIA.Core.Messages.Commands;
 using ANCIA.Core.Notifications;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace ANCIA.Authentication.Application.Commands
 {
-    public class CreateUserCommandHandler : CommandHandler, IRequestHandler<CreateUserCommand, CommandResult>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ProcessResult<string>>
     {
         private readonly UserManager<AppUser> _userManager;
 
-        public CreateUserCommandHandler(UserManager<AppUser> userManager, INotifier notifier) : base(notifier)
+        public CreateUserCommandHandler(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }
 
-        public async Task<CommandResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ProcessResult<string>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             if (!request.IsValid())
-            {
-                var a = request.ValidationResult.ToNotificationList();
-                _notifier.AddNotifications(a);
-                return CommandResult.Empty();
-            }
-            if (await _userManager.FindByEmailAsync(request.Email) != null)
-            {
-                _notifier.AddNotification("Já existe um usuário com este email cadastrado");
-                return CommandResult.Empty();
-            }
-            var appUser = new AppUser
-            {
-                Email = request.Email,
-                UserName = request.Email,
-                EmailConfirmed = true
-            };
+                return ProcessResult<string>.Fail(request.ValidationResult.ToNotificationList());
 
+            var appUser = new AppUser(request.Email);
             IdentityResult identityResult = await _userManager.CreateAsync(appUser, request.Password);
-
             if (!identityResult.Succeeded)
-            {
-                var errorMessages = identityResult.Errors
-                    .Select(error => error.Description)
+                return ProcessResult<string>.Fail(getErrorsFromIdentiy(identityResult));
+
+            return ProcessResult<string>.Success(request.Email);
+        }
+
+        private IEnumerable<Notification> getErrorsFromIdentiy(IdentityResult identityResult)
+        {
+            return identityResult.Errors
+                    .Select(error => new Notification(error.Description))
                     .ToList();
-                _notifier.AddNotifications(errorMessages);
-            }
-            return CommandResult.Empty();
         }
     }
 }
