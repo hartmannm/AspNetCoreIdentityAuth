@@ -4,6 +4,6 @@ namespace ANCIA.Core.Messages.Mediator
 {
     public interface IMediatorHandler
     {
-        Task<CommandResult> SendCommand<T>(T command) where T : Command;
+        Task<T> SendCommand<T>(Command<T> command);
     }
 }

@@ -12,10 +12,9 @@ namespace ANCIA.Core.Messages.Mediator
             _mediator = mediator;
         }
 
-        public async Task<CommandResult> SendCommand<T>(T command) where T : Command
+        public async Task<T> SendCommand<T>(Command<T> command)
         {
-            var result = await _mediator.Send(command);
-            return result != null ? new CommandResult(result) : CommandResult.Empty();
+            return await _mediator.Send(command);
         }
     }
 }
