@@ -3,24 +3,28 @@
     public class DefaultResult
     {
         public bool Success { get; set; }
-        public object Data { get; set; }
-        public IEnumerable<string> Errors { get; set; }
+        public object? Data { get; set; }
+        public IEnumerable<string>? Errors { get; set; }
 
         public DefaultResult(bool success)
         {
             Success = success;
         }
 
-        public DefaultResult(object data)
+        public static DefaultResult Ok(object data)
         {
-            Success = true;
-            Data = data;
+            return new DefaultResult(true)
+            {
+                Data = data
+            };
         }
 
-        public DefaultResult(IEnumerable<string> errors)
+        public static DefaultResult Fail(IEnumerable<string> errors)
         {
-            Success = false;
-            Errors = errors;
+            return new DefaultResult(false)
+            {
+                Errors = errors
+            };
         }
     }
 }
