@@ -15,12 +15,12 @@ namespace ANCIA.ApiCore.Controllers
 
         protected DefaultResult CreateSuccessReturn(object data)
         {
-            return new DefaultResult(data);
+            return DefaultResult.Ok(data);
         }
 
         protected DefaultResult CreateErrorReturn(IEnumerable<string> erros)
         {
-            return new DefaultResult(erros);
+            return DefaultResult.Fail(erros);
         }
 
         protected IEnumerable<string> getErrorList(ValidationResult result)
