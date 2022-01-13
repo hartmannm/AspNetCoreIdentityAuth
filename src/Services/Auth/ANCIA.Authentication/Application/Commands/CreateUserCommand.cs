@@ -1,4 +1,5 @@
-﻿using ANCIA.Core.Core;
+﻿using ANCIA.Authentication.Application.Validations;
+using ANCIA.Core.Core;
 using ANCIA.Core.Messages.Commands;
 using FluentValidation;
 
@@ -21,14 +22,9 @@ namespace ANCIA.Authentication.Application.Commands
     {
         public CreateUserCommandValidator()
         {
-            RuleFor(c => c.Email)
-                .NotNull().WithMessage("O email é obrigatório")
-                .EmailAddress().WithMessage("Endereço de email em formato inválido");
+            RuleFor(c => c.Email).EmailValid();
 
-            RuleFor(c => c.Password)
-                .NotNull().WithMessage("A senha é obrigatória")
-                .MinimumLength(8).WithMessage("A senha deve conter no mínimo {MinLength} caracteres")
-                .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$").WithMessage("Senha em formato inválido");
+            RuleFor(c => c.Password).PasswordValid();
 
             RuleFor(c => c.ConfirmPassword)
                 .NotNull().WithMessage("A confirmação de senha é obrigatória");
