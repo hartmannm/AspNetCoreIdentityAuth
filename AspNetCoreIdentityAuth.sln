@@ -19,11 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANCIA.ApiCore", "src\Shared
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{13B1914F-A0CA-4140-966D-596C17460C02}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4EBD53F7-EC38-45BA-BB28-AF48F732967C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4EBD53F7-EC38-45BA-BB28-AF48F732967C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANCIA.CoreTests", "tests\shared\ANCIA.CoreTests\ANCIA.CoreTests.csproj", "{84C4749A-15A9-4BE2-90B1-C1E262E06EEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANCIA.CoreTests", "tests\Shared\ANCIA.CoreTests\ANCIA.CoreTests.csproj", "{84C4749A-15A9-4BE2-90B1-C1E262E06EEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANCIA.ApiCoreTests", "tests\shared\ANCIA.ApiCoreTests\ANCIA.ApiCoreTests.csproj", "{A0511070-AD04-47CF-B892-EE431EF21162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANCIA.ApiCoreTests", "tests\Shared\ANCIA.ApiCoreTests\ANCIA.ApiCoreTests.csproj", "{A0511070-AD04-47CF-B892-EE431EF21162}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
