@@ -12,12 +12,12 @@ namespace ANCIA.Authentication.Domain.Validations
 
         public static bool MinLength(string password)
         {
-            return password.Length >= 8;
+            return !string.IsNullOrEmpty(password) && password.Length >= 8;
         }
 
         public static bool Pattern(string password)
         {
-            return _passwordPattern.Match(password).Success;
+            return !string.IsNullOrEmpty(password) && _passwordPattern.Match(password).Success;
         }
     }
 }

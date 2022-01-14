@@ -8,7 +8,8 @@ namespace ANCIA.Authentication.Application.Validations
         public static IRuleBuilderOptions<T, string?> PasswordValid<T>(this IRuleBuilder<T, string?> ruleBuilder)
         {
             ruleBuilder.NotNull()
-                .WithMessage(PaswordValidation.PasswordRequiredMessage);
+               .NotEmpty()
+               .WithMessage(PaswordValidation.PasswordRequiredMessage);
 
             ruleBuilder.Must(password => PaswordValidation.MinLength(password) == true)
                 .WithMessage(PaswordValidation.PasswordLengthMessage);
