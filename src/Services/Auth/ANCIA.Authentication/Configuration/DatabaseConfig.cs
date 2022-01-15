@@ -1,9 +1,9 @@
 ﻿using ANCIA.Authentication.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ANCIA.Authentication.Infra.IoC.Data
+namespace ANCIA.Authentication.Configuration
 {
-    public static class DatabaseContainerConfiguration
+    public static class DatabaseConfig
     {
         private const string ConnectionStringName = "DatabaseConnection";
 

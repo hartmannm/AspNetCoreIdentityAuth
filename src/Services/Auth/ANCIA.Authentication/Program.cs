@@ -1,5 +1,5 @@
-using ANCIA.Authentication.Domain.Token;
-using ANCIA.Authentication.Infra.IoC;
+using ANCIA.Authentication.Configuration;
+using ANCIA.Authentication.Infra.IoC.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,21 +9,13 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
     .AddEnvironmentVariables();
 
-builder.Services.Configure<TokenRules>(builder.Configuration.GetSection("TokenRules"));
-
-// Add services to the container.
-builder.Services.ConfigureAppDependencies(builder.Configuration);
-
-builder.Services.AddControllers();
+builder.Services.AddApiConfiguration();
+builder.Services.AddDependencyInjection(builder.Configuration);
+builder.Services.AddIdentityConfiguration(builder.Configuration);
+builder.Services.AddAuthenticationConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseHsts();
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseApiConfiguration();
 
 app.Run();
