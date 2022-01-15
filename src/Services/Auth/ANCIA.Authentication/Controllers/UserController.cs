@@ -16,8 +16,8 @@ namespace ANCIA.Authentication.Controllers
             _mediatorHandler = mediatorHandler;
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand createUserCommand)
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand createUserCommand)
         {
             ProcessResult<string> processResult = await _mediatorHandler.SendCommand(createUserCommand);
             if (processResult.HasError())
