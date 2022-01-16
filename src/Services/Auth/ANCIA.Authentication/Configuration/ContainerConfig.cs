@@ -1,6 +1,8 @@
 ﻿using ANCIA.Authentication.Application.AuthToken;
 using ANCIA.Authentication.Application.Token;
 using ANCIA.Authentication.Domain.Token;
+using ANCIA.Authentication.Domain.User;
+using ANCIA.Authentication.Infra.API;
 using ANCIA.Core.Messages.Mediator;
 using ANCIA.Core.Notifications;
 using MediatR;
@@ -14,6 +16,8 @@ namespace ANCIA.Authentication.Configuration
         {
             services.ConfigureDatabaseDependencies(configuration);
             services.Configure<TokenRules>(configuration.GetSection("TokenRules"));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, ApiUser>();
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IMediatorHandler, MediatorHandler>();
             services.AddScoped<INotifier, Notifier>();
