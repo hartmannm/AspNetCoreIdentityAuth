@@ -11,7 +11,7 @@
         public static WebApplication UseApiConfiguration(this WebApplication app)
         {
             app.UseHttpsRedirection();
-            app.UseAuthorization();
+            app.UseAuthenticationConfiguration();
             app.MapControllers();
             return app;
         }

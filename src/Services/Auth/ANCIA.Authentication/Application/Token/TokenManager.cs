@@ -44,8 +44,9 @@ namespace ANCIA.Authentication.Application.Token
         private IList<Claim> GetDefaultClaims(AppUser user)
         {
             return new List<Claim>() {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("Id", user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64)
