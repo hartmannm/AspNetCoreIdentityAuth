@@ -49,6 +49,9 @@ namespace ANCIA.Authentication.Configuration
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UpdateUser", policy => policy.RequireClaim("User", new string[] { "Update" }));
+                options.AddPolicy("ReadUser", policy => policy.RequireClaim("User", new string[] { "Read" }));
+                options.AddPolicy("DeleteUser", policy => policy.RequireClaim("User", new string[] { "Delete" }));
             });
             return services;
         }

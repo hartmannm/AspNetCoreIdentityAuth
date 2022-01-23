@@ -20,6 +20,7 @@ namespace ANCIA.Authentication.Infra.Data
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
             modelBuilder.SeedInitialUserRoles();
+            modelBuilder.SeedInitialClaims();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthenticationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
