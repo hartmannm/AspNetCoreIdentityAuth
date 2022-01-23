@@ -32,7 +32,8 @@ namespace ANCIA.Authentication.Application.Commands
 
             var user = await _userManager.FindByEmailAsync(request.Email);
             var token = await _tokenManager.CreateToken(user);
-            var loginResult = new LoginResultDto(token, user.Id, user.Email);
+            var refreshToken = await HandleRefreshToken(user.Id);
+            var loginResult = new LoginResultDto(token, user.Id, user.Email, refreshToken);
             return ProcessResult<LoginResultDto>.Success(loginResult);
         }
 
@@ -46,5 +47,11 @@ namespace ANCIA.Authentication.Application.Commands
                 return "Usuário ou senha inválidos";
         }
 
+        private async Task<string> HandleRefreshToken(string userId)
+        {
+            var refreshToken = _tokenManager.CreateRefreshToken();
+            await _tokenManager.SaveRefreshToken(userId, refreshToken);
+            return refreshToken;
+        } 
     }
 }

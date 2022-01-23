@@ -14,7 +14,8 @@ namespace ANCIA.Authentication.Configuration
     {
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
-            services.ConfigureDatabaseDependencies(configuration);
+            services.ConfigureSqlServerDatabase(configuration);
+            services.ConfigureRedisDatabase(configuration);
             services.Configure<TokenRules>(configuration.GetSection("TokenRules"));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, ApiUser>();
