@@ -2,6 +2,7 @@
 using ANCIA.Authentication.Application.Commands;
 using ANCIA.Core.Core;
 using ANCIA.Core.Messages.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ANCIA.Authentication.Controllers
@@ -9,7 +10,7 @@ namespace ANCIA.Authentication.Controllers
     [Route("api/users")]
     public class UserController : MainController
     {
-        private IMediatorHandler _mediatorHandler;
+        private readonly IMediatorHandler _mediatorHandler;
 
         public UserController(IMediatorHandler mediatorHandler)
         {
@@ -17,6 +18,7 @@ namespace ANCIA.Authentication.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand createUserCommand)
         {
             ProcessResult<string> processResult = await _mediatorHandler.SendCommand(createUserCommand);
@@ -26,7 +28,22 @@ namespace ANCIA.Authentication.Controllers
                     getErrorList(processResult.Errors));
                 return BadRequest(result);
             }
-            return Ok();
+            return Ok(CreateSuccessReturn(processResult.Content));
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Policy = "Admin")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var command = new DeleteUserComand { UserId = id };
+            ProcessResult<string> processResult = await _mediatorHandler.SendCommand(command);
+            if (processResult.HasError())
+            {
+                var result = CreateErrorReturn(
+                    getErrorList(processResult.Errors));
+                return BadRequest(result);
+            }
+            return Ok(CreateSuccessReturn(processResult.Content));
         }
     }
 }
