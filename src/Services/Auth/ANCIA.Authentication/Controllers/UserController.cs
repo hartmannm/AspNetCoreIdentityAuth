@@ -1,5 +1,7 @@
 ﻿using ANCIA.ApiCore.Controllers;
 using ANCIA.Authentication.Application.Commands;
+using ANCIA.Authentication.Application.Services;
+using ANCIA.Authentication.Domain;
 using ANCIA.Core.Core;
 using ANCIA.Core.Messages.Mediator;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +13,12 @@ namespace ANCIA.Authentication.Controllers
     public class UserController : MainController
     {
         private readonly IMediatorHandler _mediatorHandler;
+        private readonly IUserApplicationService _userService;
 
-        public UserController(IMediatorHandler mediatorHandler)
+        public UserController(IMediatorHandler mediatorHandler, IUserApplicationService userService)
         {
             _mediatorHandler = mediatorHandler;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -59,6 +63,14 @@ namespace ANCIA.Authentication.Controllers
                 return BadRequest(result);
             }
             return Ok(CreateSuccessReturn(processResult.Content));
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "ReadUser")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var result = await _userService.GetAllAsync();
+            return Ok(CreateSuccessReturn(result.Content));
         }
     }
 }

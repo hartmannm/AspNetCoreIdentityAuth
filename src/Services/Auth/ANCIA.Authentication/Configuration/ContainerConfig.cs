@@ -1,4 +1,5 @@
 ﻿using ANCIA.Authentication.Application.AuthToken;
+using ANCIA.Authentication.Application.Services;
 using ANCIA.Authentication.Application.Token;
 using ANCIA.Authentication.Domain.Token;
 using ANCIA.Authentication.Domain.User;
@@ -23,6 +24,7 @@ namespace ANCIA.Authentication.Configuration
             services.AddScoped<IMediatorHandler, MediatorHandler>();
             services.AddScoped<INotifier, Notifier>();
             services.AddScoped<ITokenManager, TokenManager>();
+            services.AddScoped<IUserApplicationService, UserApplicationService>();
             return services;
         }
     }
