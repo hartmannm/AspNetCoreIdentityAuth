@@ -32,10 +32,25 @@ namespace ANCIA.Authentication.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "DeleteUser")]
         public async Task<IActionResult> Delete(string id)
         {
             var command = new DeleteUserComand { UserId = id };
+            ProcessResult<string> processResult = await _mediatorHandler.SendCommand(command);
+            if (processResult.HasError())
+            {
+                var result = CreateErrorReturn(
+                    getErrorList(processResult.Errors));
+                return BadRequest(result);
+            }
+            return Ok(CreateSuccessReturn(processResult.Content));
+        }
+
+        [HttpPost("active/{id}")]
+        [Authorize(Policy = "UpdateUser")]
+        public async Task<IActionResult> Activate(string id)
+        {
+            var command = new ActivateUserCommand { UserId = id };
             ProcessResult<string> processResult = await _mediatorHandler.SendCommand(command);
             if (processResult.HasError())
             {
