@@ -1,7 +1,6 @@
 ﻿using ANCIA.ApiCore.Controllers;
 using ANCIA.Authentication.Application.Commands;
 using ANCIA.Authentication.Application.Services;
-using ANCIA.Authentication.Domain;
 using ANCIA.Core.Core;
 using ANCIA.Core.Messages.Mediator;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ANCIA.Authentication.Controllers
 {
-    [Route("api/users")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/users")]
     public class UserController : MainController
     {
         private readonly IMediatorHandler _mediatorHandler;

@@ -1,11 +1,14 @@
 ﻿using ANCIA.ApiCore.Controllers;
 using ANCIA.Authentication.Application.Commands;
 using ANCIA.Core.Messages.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ANCIA.Authentication.Controllers
 {
-    [Route("api/auth")]
+    [ApiVersion("1.0")]
+    [AllowAnonymous]
+    [Route("api/v{version:apiVersion}/auth")]
     public class AuthController : MainController
     {
         private readonly IMediatorHandler _mediatorHandler;
