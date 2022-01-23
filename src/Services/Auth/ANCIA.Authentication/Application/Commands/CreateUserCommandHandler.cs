@@ -1,4 +1,5 @@
-﻿using ANCIA.Authentication.Domain.Models;
+﻿using ANCIA.Authentication.Configuration.Identity;
+using ANCIA.Authentication.Domain.Models;
 using ANCIA.Core.Core;
 using ANCIA.Core.Extensions;
 using ANCIA.Core.Notifications;
@@ -39,25 +40,18 @@ namespace ANCIA.Authentication.Application.Commands
 
                 IdentityResult createUserResult = await _userManager.CreateAsync(appUser, request.Password);
                 if (!createUserResult.Succeeded)
-                    return ProcessResult<string>.Fail(getErrorsFromIdentiy(createUserResult));
+                    return ProcessResult<string>.Fail(createUserResult.ToNotifications());
 
-                var addRoleresult = await _userManager.AddToRoleAsync(appUser, role.Name);
-                if (!addRoleresult.Succeeded)
+                var addRoleResult = await _userManager.AddToRoleAsync(appUser, role.Name);
+                if (addRoleResult.Succeeded)
                 {
-                    scope.Dispose();
-                    return ProcessResult<string>.Fail(getErrorsFromIdentiy(addRoleresult));
+                    scope.Complete();
+                    return ProcessResult<string>.Success(request.Email);
                 }
 
-                scope.Complete();
-                return ProcessResult<string>.Success(request.Email);
+                scope.Dispose();
+                return ProcessResult<string>.Fail(addRoleResult.ToNotifications());
             }
-        }
-
-        private IEnumerable<Notification> getErrorsFromIdentiy(IdentityResult identityResult)
-        {
-            return identityResult.Errors
-                    .Select(error => new Notification(error.Description))
-                    .ToList();
         }
     }
 }
