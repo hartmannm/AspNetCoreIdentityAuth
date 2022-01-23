@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ANCIA.Authentication.Infra.Data
 {
-    public class AuthenticationDbContext : IdentityDbContext<AppUser, AppRole, string>
+    public class AuthenticationDbContext : IdentityDbContext<AppUser>
     {
         public AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : base(options) { }
 

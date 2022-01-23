@@ -8,7 +8,7 @@ namespace ANCIA.Authentication.Infra.IoC.Identity
     {
         public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<AppUser, AppRole>(options =>
+            services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Lockout.AllowedForNewUsers = true;
                 options.Lockout.MaxFailedAccessAttempts = 5;
