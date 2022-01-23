@@ -1,4 +1,5 @@
 ﻿using ANCIA.Authentication.Domain.Models;
+using ANCIA.Authentication.Infra.Data.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ namespace ANCIA.Authentication.Infra.Data
             var relationShips = modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys());
             foreach (var relationship in relationShips)
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+            modelBuilder.SeedInitialUserRoles();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthenticationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);

@@ -10,6 +10,7 @@ namespace ANCIA.Authentication.Application.Commands
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? ConfirmPassword { get; set; }
+        public string? RoleId { get; set; }
 
         public override bool IsValid()
         {
@@ -32,6 +33,11 @@ namespace ANCIA.Authentication.Application.Commands
             RuleFor(c => c.ConfirmPassword)
                 .Equal(c => c.Password).WithMessage("Os campos de senha devem possuir o mesmo valor")
                 .When(c => !string.IsNullOrEmpty(c.Password));
+
+            RuleFor(c => c.RoleId)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("A identificação da role é obrigatória");
         }
     }
 }

@@ -17,5 +17,15 @@ namespace ANCIA.Authentication.Domain.Models
             UserName = email;
             EmailConfirmed = true;
         }
+
+        public void Delete()
+        {
+            Active = false;
+        }
+
+        public void Activate()
+        {
+            Active = true;
+        }
     }
 }
