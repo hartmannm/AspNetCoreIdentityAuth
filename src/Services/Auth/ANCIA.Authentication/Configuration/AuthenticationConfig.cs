@@ -12,6 +12,13 @@ namespace ANCIA.Authentication.Configuration
 
         public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAuthenticationConfig(configuration);
+            services.AddAuthorizationConfig();
+            return services;
+        }
+
+        public static IServiceCollection AddAuthenticationConfig(this IServiceCollection services, IConfiguration configuration)
+        {
             var tokenRules = GetTokenRules(services, configuration);
             services.AddAuthentication(options =>
             {
@@ -33,6 +40,15 @@ namespace ANCIA.Authentication.Configuration
                     ValidAudience = tokenRules.Audience,
                     ValidIssuer = tokenRules.Issuer,
                 };
+            });
+            return services;
+        }
+
+        public static IServiceCollection AddAuthorizationConfig(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
             });
             return services;
         }
